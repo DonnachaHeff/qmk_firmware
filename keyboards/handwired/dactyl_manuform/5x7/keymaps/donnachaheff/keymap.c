@@ -6,8 +6,9 @@
 // Layer names don't all need to be of the same length, obviously, and you can also skip them
 // entirely and just use numbers.
 #define _QWERTY 0
-#define _FN     1
-#define _NUMPAD 2
+#define _POG    1
+#define _FN     2
+#define _NUMPAD 3
 
 // Some basic macros
 #define TASK    LCTL(LSFT(KC_ESC))
@@ -15,15 +16,63 @@
 #define TAB_L   LCTL(LSFT(KC_TAB))
 #define TAB_RO  LCTL(LSFT(KC_T))
 
+enum custom_keycodes {
+    S_TRUE = SAFE_RANGE,
+    S_FALSE,
+};
+
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+    // TODO: Can I be holding down shift and check if that's what I'm pressing right now as well...
+    switch (keycode) {
+    case S_TRUE:
+        if (record->event.pressed) {
+            SEND_STRING("true");
+        }
+        break;
+    case S_FALSE:
+        if (record->event.pressed) {
+            SEND_STRING("false");
+        }
+        break;
+    }
+
+    return true;
+};
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
+
+
+ /*
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |   =    |   1  |   2  |   3  |   4  |   5  | LEFT |           | RIGHT|   6  |   7  |   8  |   9  |   0  |   -    |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * | Del    |   Q  |   W  |   E  |   R  |   T  |Insrt |           | LDR  |   Y  |   U  |   I  |   O  |   P  |   \    |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * | Grv    |   A  |   S  |   D  | F/Alt|   G  |------|           |------|   H  | J/Alt| K/POG|   L  |; / L2|   '    |
+ * |--------+------+------+------+------+------| Hyper|           | Meh  |------+------+------+------+------+--------|
+ * | LShift | Ctrl |x:M_CS|   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |//LGUI|  POG   |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |      |  '"  |AltShf| Left | Right|                                       |  Up  | Down |   [  |   ]  | RShift |
+ *   `----------------------------------'                                       `------------------------------------'
+ *
+ *                                .--------------------.         .---------------.------.
+ *                                |      |      |      |         |        |      | ESC  |
+ *                                |------| SPC  |  BS  |         |  Tab   |Enter |------|
+ *                                |      |      |      |         |        |      |      |
+ *                                '------|-------------|         |---------------'------'
+ *                                       | LEFT | RGHT |         |   UP   | DOWN |
+ *                                       '------'------'         '--------'------'
+ *
+ *
+ */
 
 [_QWERTY] = LAYOUT_5x7(
   // left hand
-   KC_ESC,    KC_1,    KC_2,    KC_3,   KC_4,   KC_5,   KC_6,
-   KC_TAB,    KC_Q,    KC_W,    KC_E,   KC_R,   KC_T,   KC_LBRC,
-   KC_LCTL,   KC_A,    KC_S,    KC_D,   KC_F,   KC_G,   TAB_RO,
+   KC_ESC,          KC_1,    KC_2,    KC_3,   KC_4,   KC_5,   KC_6,
+   KC_TAB,          KC_Q,    KC_W,    KC_E,   KC_R,   KC_T,   KC_LBRC,
+   KC_LCTL,         KC_A,    KC_S,    KC_D,   KC_F,   KC_G,   TAB_RO,
    OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,   KC_V,   KC_B,
-   KC_CAPS,   KC_LGUI, TAB_L,   TAB_R,
+   KC_CAPS,         KC_LGUI, TAB_L,   TAB_R,
                                TT(_FN), KC_SPC,
                                KC_END, KC_HOME,
                                KC_PSCR, TASK,
@@ -36,6 +85,47 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
         KC_BSPC, KC_ENT,
         KC_PGUP, KC_PGDN,
         KC_LCTL, KC_LALT),
+
+/* Keymap 1: Symbol Layer
+ *
+ * ,--------------------------------------------------.           ,--------------------------------------------------.
+ * |        |  F1  |  F2  |  F3  |  F4  |  F5  |      |           |      |  F6  |  F7  |  F8  |  F9  |  F10 |   F11  |
+ * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
+ * |        |false |      |   {  |   }  |      |      |           |      |   Up |   7  |   8  |   9  |   *  |   F12  |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |true  |   =  |   (  |   )  |      |------|           |------| Down |   4  |   5  |   6  |   +  |        |
+ * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
+ * |        |      |   _  |   [  |   ]  |      |      |           |      |   &  |   1  |   2  |   3  |   \  |        |
+ * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
+ *   |      |      |      |      |      |                                       |      |    . |   0  |   =  |      |
+ *   `----------------------------------'                                       `----------------------------------'
+ *                                        ,-------------.       ,-------------.
+ *                                        |      |      |       |      |      |
+ *                                 ,------|------|------|       |------+------+------.
+ *                                 |      |      |      |       |      |      |      |
+ *                                 |      |      |------|       |------|      |      |
+ *                                 |      |      |      |       |      |      |      |
+ *                                 `--------------------'       `--------------------'
+ */
+[_POG] = LAYOUT_5x7(
+  // left hand
+   _______,   KC_F1,     KC_F2,     KC_F3,    KC_F4,     KC_F5,    _______,
+   _______,   S_FALSE,   _______,   KC_LCBR,  KC_RCBR,   _______,  _______,
+   _______,   S_TRUE ,   KC_EQL ,   KC_LPRN,  KC_RPRN,   _______,  RESET,
+   _______,   _______,   KC_UNDS,   KC_LBRC,  KC_RBRC,   _______,
+   KC_MSTP,   KC_MPLY,   KC_MPRV,   KC_MNXT,
+                               _______, _______,
+                               _______, _______,
+                               _______, _______,
+        // right hand
+                     _______,   KC_F6,     KC_F7,     KC_F8,     KC_F9,     KC_F10,    KC_F11,
+                     _______,   _______,   _______,   _______,   _______,   _______,   _______,
+                     _______,   _______,   _______,   _______,   _______,   _______,   _______,
+                                _______,   _______,   _______,   _______,   _______,   _______,
+                                                      _______,   _______,   _______,   _______,
+        KC_DEL, _______,
+        _______, _______,
+        _______, _______),
 
 [_FN] = LAYOUT_5x7(
   // left hand
