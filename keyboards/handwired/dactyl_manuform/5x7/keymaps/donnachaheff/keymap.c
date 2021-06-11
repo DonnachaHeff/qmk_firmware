@@ -16,6 +16,8 @@
 #define TAB_L   LCTL(LSFT(KC_TAB))
 #define TAB_RO  LCTL(LSFT(KC_T))
 
+#define MOD_CSHF MOD_LCTL | MOD_LSFT
+
 enum custom_keycodes {
     S_TRUE = SAFE_RANGE,
     S_FALSE,
@@ -40,8 +42,6 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 };
 
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
-
-
  /*
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |   =    |   1  |   2  |   3  |   4  |   5  | LEFT |           | RIGHT|   6  |   7  |   8  |   9  |   0  |   -    |
@@ -56,37 +56,46 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  *   `----------------------------------'                                       `------------------------------------'
  *
  *                                .--------------------.         .---------------.------.
- *                                |      |      |      |         |        |      | ESC  |
- *                                |------| SPC  |  BS  |         |  Tab   |Enter |------|
- *                                |      |      |      |         |        |      |      |
+ *                                | Ctrl |      |      |         |        |      | Ctrl |
+ *                                |------|AltShf|  SPC |         |  UP    | Tab  |------|
+ *                                | BS   |      |      |         |        |      | SPC  |
  *                                '------|-------------|         |---------------'------'
- *                                       | LEFT | RGHT |         |   UP   | DOWN |
+ *                                       | LEFT | RGHT |         |   Down | Enter|
  *                                       '------'------'         '--------'------'
  *
  *
  */
 
 [_QWERTY] = LAYOUT_5x7(
-  // left hand
-   KC_ESC,          KC_1,    KC_2,    KC_3,   KC_4,   KC_5,   KC_6,
-   KC_TAB,          KC_Q,    KC_W,    KC_E,   KC_R,   KC_T,   KC_LBRC,
-   KC_LCTL,         KC_A,    KC_S,    KC_D,   KC_F,   KC_G,   TAB_RO,
-   OSM(MOD_LSFT),   KC_Z,    KC_X,    KC_C,   KC_V,   KC_B,
-   KC_CAPS,         KC_LGUI, TAB_L,   TAB_R,
-                               TT(_FN), KC_SPC,
-                               KC_END, KC_HOME,
-                               KC_PSCR, TASK,
-        // right hand
-                     KC_7,    KC_8,    KC_9,    KC_0,     KC_MINS,  KC_EQL,   KC_GRV,
-                     KC_RBRC, KC_Y,    KC_U,    KC_I,     KC_O,     KC_P,     KC_BSLS,
-                 TG(_NUMPAD), KC_H,    KC_J,    KC_K,     KC_L,     KC_SCLN,  KC_QUOT,
-                              KC_N,    KC_M,    KC_COMM,  KC_DOT,   KC_SLSH,  OSM(MOD_RSFT),
-                                       KC_LEFT, KC_UP,    KC_DOWN,  KC_RGHT,
-        KC_BSPC, KC_ENT,
-        KC_PGUP, KC_PGDN,
-        KC_LCTL, KC_LALT),
+   // left hand
+   KC_ESC,          KC_1,                  KC_2,                  KC_3,   KC_4,   KC_5,   XXXXXXX,
+   KC_DEL,          KC_Q,                  KC_W,                  KC_E,   KC_R,   KC_T,   KC_LBRC,
+   KC_ESC,          KC_A,                  KC_S,                  KC_D,   KC_F,   KC_G,   RESET,
+   OSM(MOD_LSFT),   MT(MOD_LCTL, KC_Z),    MT(MOD_CSHF, KC_X),    KC_C,   KC_V,   KC_B,
+   XXXXXXX,         KC_LGUI,               KC_LEFT,               KC_RGHT,
+                               // 1tp ,  1btm
+                               KC_BSPC, KC_LCTL,
+                               // 2tp  , 2btm
+                               KC_LEFT, KC_LALT,
+                               // 3tp  , 3btm
+                               KC_RGHT, KC_SPC,
+
+    // right hand
+                     XXXXXXX, KC_6,    KC_7,    KC_8,               KC_9,     KC_0,                   KC_MINS,
+                     KC_RBRC, KC_Y,    KC_U,    KC_I,               KC_O,     KC_P,                   KC_BSLS,
+                     TT(_FN), KC_H,    KC_J,    LT(_POG, KC_K),     KC_L,     KC_SCLN,                KC_QUOT,
+                              KC_N,    KC_M,    KC_COMM,            KC_DOT,   MT(MOD_LGUI, KC_SLSH),  MO(_POG),
+                                       KC_LEFT, KC_UP,              KC_DOWN,  KC_RGHT,
+        // 1tp , 1btm
+        KC_LCTL, KC_SPC, 
+        // 2tp , 2btm
+        KC_TAB,  KC_ENT, 
+        // 3tp , 3btm
+        KC_UP,   KC_DOWN), 
 
 /* Keymap 1: Symbol Layer
+ *
+ *
  *
  * ,--------------------------------------------------.           ,--------------------------------------------------.
  * |        |  F1  |  F2  |  F3  |  F4  |  F5  |      |           |      |  F6  |  F7  |  F8  |  F9  |  F10 |   F11  |
