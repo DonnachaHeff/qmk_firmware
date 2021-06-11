@@ -44,16 +44,16 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
  /*
  * ,--------------------------------------------------.           ,--------------------------------------------------.
- * |   =    |   1  |   2  |   3  |   4  |   5  | LEFT |           | RIGHT|   6  |   7  |   8  |   9  |   0  |   -    |
+ * | TAB    |   1  |   2  |   3  |   4  |   5  |      |           |      |   6  |   7  |   8  |   9  |   0  |   -    |
  * |--------+------+------+------+------+-------------|           |------+------+------+------+------+------+--------|
- * | Del    |   Q  |   W  |   E  |   R  |   T  |Insrt |           | LDR  |   Y  |   U  |   I  |   O  |   P  |   \    |
+ * | DEL    |   Q  |   W  |   E  |   R  |   T  |  [   |           | ]    |   Y  |   U  |   I  |   O  |   P  |   \    |
  * |--------+------+------+------+------+------|      |           |      |------+------+------+------+------+--------|
- * | Grv    |   A  |   S  |   D  | F/Alt|   G  |------|           |------|   H  | J/Alt| K/POG|   L  |; / L2|   '    |
- * |--------+------+------+------+------+------| Hyper|           | Meh  |------+------+------+------+------+--------|
- * | LShift | Ctrl |x:M_CS|   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |//LGUI|  POG   |
+ * | ESC    |   A  |   S  |   D  | F/Alt|   G  |------|           |------|   H  | J/Alt| K/POG|   L  |; / L2|   '    |
+ * |--------+------+------+------+------+------| RESET|           |  FN  |------+------+------+------+------+--------|
+ * | LShift | Ctrl |x:M_CS|   C  |   V  |   B  |      |           |      |   N  |   M  |   ,  |   .  |//LGUI| RShift |
  * `--------+------+------+------+------+-------------'           `-------------+------+------+------+------+--------'
- *   |      |  '"  |AltShf| Left | Right|                                       |  Up  | Down |   [  |   ]  | RShift |
- *   `----------------------------------'                                       `------------------------------------'
+ *   | CAPS |AltShf| Left | Right|                                       |      |  Up  | Down |  POG   |
+ *   `---------------------------'                                       `-----------------------------'
  *
  *                                .--------------------.         .---------------.------.
  *                                | Ctrl |      |      |         |        |      | Ctrl |
@@ -68,11 +68,11 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
 [_QWERTY] = LAYOUT_5x7(
    // left hand
-   KC_ESC,          KC_1,                  KC_2,                  KC_3,   KC_4,   KC_5,   XXXXXXX,
+   KC_TAB,          KC_1,                  KC_2,                  KC_3,   KC_4,   KC_5,   XXXXXXX,
    KC_DEL,          KC_Q,                  KC_W,                  KC_E,   KC_R,   KC_T,   KC_LBRC,
    KC_ESC,          KC_A,                  KC_S,                  KC_D,   KC_F,   KC_G,   RESET,
    OSM(MOD_LSFT),   MT(MOD_LCTL, KC_Z),    MT(MOD_CSHF, KC_X),    KC_C,   KC_V,   KC_B,
-   XXXXXXX,         KC_LGUI,               KC_LEFT,               KC_RGHT,
+   KC_CAPS,         KC_LGUI,               KC_LEFT,               KC_RGHT,
                                // 1tp ,  1btm
                                KC_BSPC, KC_LCTL,
                                // 2tp  , 2btm
@@ -85,7 +85,7 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                      KC_RBRC, KC_Y,    KC_U,    KC_I,               KC_O,     KC_P,                   KC_BSLS,
                      TT(_FN), KC_H,    KC_J,    LT(_POG, KC_K),     KC_L,     KC_SCLN,                KC_QUOT,
                               KC_N,    KC_M,    KC_COMM,            KC_DOT,   MT(MOD_LGUI, KC_SLSH),  OSM(MOD_RSFT),
-                                       KC_LEFT, KC_UP,              KC_DOWN,  MO(_POG),
+                                       XXXXXXX, KC_UP,              KC_DOWN,  MO(_POG),
         // 1tp , 1btm
         KC_LCTL, KC_SPC, 
         // 2tp , 2btm
