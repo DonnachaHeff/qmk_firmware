@@ -9,6 +9,7 @@
 #define _POG    1
 #define _FN     2
 #define _NUMPAD 3
+#define _MEDIA  4
 
 // Some basic macros
 #define TASK    LCTL(LSFT(KC_ESC))
@@ -73,17 +74,17 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
    KC_ESC,          KC_A,                  KC_S,                  KC_D,   KC_F,   KC_G,   RESET,
    OSM(MOD_LSFT),   MT(MOD_LCTL, KC_Z),    MT(MOD_CSHF, KC_X),    KC_C,   KC_V,   KC_B,
    KC_CAPS,         KC_LGUI,               KC_LEFT,               KC_RGHT,
-                               // 1tp ,  1btm
+                               // 1btm ,  1tp
                                KC_BSPC, KC_LCTL,
-                               // 2tp  , 2btm
+                               // 2btm , 2tp
                                KC_LEFT, KC_LALT,
-                               // 3tp  , 3btm
+                               // 3btm , 3tp
                                KC_RGHT, KC_SPC,
 
     // right hand
                      XXXXXXX, KC_6,    KC_7,    KC_8,               KC_9,     KC_0,                   KC_MINS,
                      KC_RBRC, KC_Y,    KC_U,    KC_I,               KC_O,     KC_P,                   KC_BSLS,
-                     TT(_FN), KC_H,    KC_J,    LT(_POG, KC_K),     KC_L,     KC_SCLN,                KC_QUOT,
+                     TT(_FN), KC_H,    LT(_MEDIA, KC_J),    LT(_POG, KC_K),     KC_L,     KC_SCLN,                KC_QUOT,
                               KC_N,    KC_M,    KC_COMM,            KC_DOT,   MT(MOD_LGUI, KC_SLSH),  OSM(MOD_RSFT),
                                        XXXXXXX, KC_UP,              KC_DOWN,  MO(_POG),
         // 1tp , 1btm
@@ -174,6 +175,34 @@ const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
                                                       KC_P0,     KC_PDOT,   _______,   _______,
         _______, KC_PENT,
         _______, _______,
+        _______, _______),
+
+
+[_MEDIA] = LAYOUT_5x7(
+  // left hand
+   _______,   _______,   _______,   _______,   _______,   _______,  _______,
+   _______,   _______,   _______,   _______,   _______,   _______,  _______,
+   _______,   _______,   _______,   _______,   _______,   _______,  _______,
+   _______,   _______,   _______,   _______,   _______,   _______,
+   _______,   _______,   _______,   _______,
+
+                               // 1btm , 1tp
+                               KC_VOLD, KC_VOLU,
+                               // 2btm , 2tp
+                               KC_MNXT, KC_MUTE,
+                               // 3btm , 3tp
+                               KC_MPRV, KC_MPLY,
+        // right hand
+                     _______,   _______,   _______,   _______,   _______,   _______,   _______,
+                     _______,   _______,   _______,   _______,   _______,   _______,   _______,
+                     _______,   _______,   _______,   _______,   _______,   _______,   _______,
+                                _______,   _______,   _______,   _______,   _______,   _______,
+                                                      _______,   _______,   _______,   _______,
+        // 1tp , 1btm
+        _______, _______,
+        // 2tp , 2btm
+        _______, _______,
+        // 3tp , 3btm
         _______, _______),
 
 };
